@@ -19,16 +19,16 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-Route.group(() => {
-  Route.get('/listar-clientes', 'ClientesController.getClientes')
-  
 
-  Route.post('/registro-cliente','ClientesController.setRegistrarClientes')
+Route.get('/', async () => {
+  return { hello: 'world' }
+})
 
-  Route.put('/actualizar-cliente/:cedula','ClientesController.actualizarCliente')
-
-  Route.delete('/eliminar-cliente/:cedula','ClientesController.eliminarCliente')
-}).prefix('/api/v3')
-// Route.get('/', async () => {
-//   return { hello: 'world' }
-// })
+Route.group(()=>{
+    Route.post('register','AuthController.register');
+    Route.post('login','AuthController.login');
+    
+    Route.group(()=>{
+      Route.get('books','BooksController.index');
+    }).middleware('auth');
+}).prefix('api');
